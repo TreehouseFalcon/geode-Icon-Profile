@@ -14,16 +14,46 @@ int getFrameIcon(IconType type) {
         case IconType::Wave: return gManager->getPlayerDart();
         case IconType::Robot: return gManager->getPlayerRobot();
         case IconType::Spider: return gManager->getPlayerSpider();
-		case IconType::Swing: return gManager->getPlayerSwing(); 
+		case IconType::Swing: return gManager->getPlayerSwing();
 		case IconType::Jetpack: return gManager->getPlayerJetpack();
     }
+}
+
+CCSprite* createBGSprite() {
+	const char* spriteName;
+
+	switch (CCDirector::get()->getLoadedTextureQuality()) {
+		case kTextureQualityLow:
+			spriteName = "profileBG.png"_spr;
+			break;
+		case kTextureQualityMedium:
+			spriteName = "profileBG_hd.png"_spr;
+		case kTextureQualityHigh:
+		default:
+			spriteName = "profileBG_uhd.png"_spr;
+	}
+
+	return CCSprite::create(spriteName);
+}
+
+bool getSettingIsBackgroundShown() {
+	return Mod::get()->getSettingValue<bool>("show-background");
+}
+float getSettingShiftIconHorizontally() {
+	return Mod::get()->getSettingValue<float>("shift-icon-x");
+}
+float getSettingShiftIconVertically() {
+	return Mod::get()->getSettingValue<float>("shift-icon-y");
+}
+float getSettingScaleIcon() {
+	return Mod::get()->getSettingValue<float>("scale-icon");
 }
 
 class $modify(MenuLayer) {
 	bool init() {
 		if(!MenuLayer::init())
 			return false;
-		
+
 		auto manager = GameManager::sharedState();
 
 		auto profileMenu = this->getChildByID("profile-menu");
@@ -36,7 +66,8 @@ class $modify(MenuLayer) {
 		playerIcon->enableCustomGlowColor(manager->colorForIdx(manager->getPlayerGlowColor()));
 		if(!manager->getPlayerGlow()) playerIcon->disableGlowOutline();
 
-		playerIcon->setScale(1.15);
+		bool isBackgroundShown = getSettingIsBackgroundShown();
+		playerIcon->setScale((isBackgroundShown ? 0.95f : 1.15f) + getSettingScaleIcon());
 
 		if(Mod::get()->getSettingValue<bool>("animations")) {
 			if(manager->m_playerIconType == IconType::Robot) playerIcon->m_robotSprite->runAnimation("idle01");
@@ -48,8 +79,15 @@ class $modify(MenuLayer) {
 		profileSpr->setID("profile-icon");
 
 		profileSpr->setDisplayFrame(playerIcon->displayFrame());
-		profileSpr->addChild(playerIcon);
+		profileSpr->addChild(playerIcon, 1);
 		profileBtn->setPositionX(30);
+
+		if (isBackgroundShown) {
+			auto profileBG = createBGSprite();
+			profileSpr->addChild(profileBG, -1);
+			profileBG->setPositionX(1.0f + getSettingShiftIconHorizontally());
+			profileBG->setPositionY(-1.0f - getSettingShiftIconVertically());
+		}
 
 		return true;
 	}

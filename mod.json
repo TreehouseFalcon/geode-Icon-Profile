@@ -1,16 +1,17 @@
 {
-	"geode": "5.0.0-beta.3",
+	"geode": "5.3.0",
 	"gd": {
 		"win": "2.2081",
 		"android": "2.2081",
 		"mac": "2.2081",
 		"ios": "2.2081"
 	},
-	"version": "v1.3.3",
+	"version": "v1.4.0",
 	"id": "dasshu.icon_profile",
 	"name": "Profile Icon",
 	"developers": [
-		"DasshuDev"
+		"DasshuDev",
+		"TreehouseFalcon"
 	],
 	"description": "Turns the profile sprite into your icon!",
 	"tags": [
@@ -22,11 +23,55 @@
 		"homepage": "https://dasshu.dev"
 	},
 	"settings": {
+		"show-background": {
+			"name": "Show profile background",
+			"description": "Should the profile button background be visible?",
+			"type": "bool",
+			"default": true
+		},
+		"shift-icon-x": {
+			"name": "Shift icon horizontally",
+			"description": "How much to shift the icon horizontally",
+			"type": "float",
+			"control": {
+				"slider": true
+			},
+			"default": 0,
+			"min": -2,
+			"max": 2
+		},
+		"shift-icon-y": {
+			"name": "Shift icon vertically",
+			"description": "How much to shift the icon vertically",
+			"type": "float",
+			"control": {
+				"slider": true
+			},
+			"default": 0,
+			"min": -2,
+			"max": 2
+		},
+		"scale-icon": {
+			"name": "Scale icon",
+			"description": "How much to scale the icon by",
+			"type": "float",
+			"control": {
+				"slider": true
+			},
+			"default": 0,
+			"min": -0.5,
+			"max": 0.5
+		},
 		"animations": {
 			"type": "bool",
 			"name": "Idle Animations",
 			"description": "Enables the idle animations for the spider and robot",
 			"default": true
 		}
+	},
+	"resources": {
+		"sprites": [
+			"assets/*.png"
+		]
 	}
 }

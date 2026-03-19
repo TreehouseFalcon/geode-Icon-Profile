@@ -1,4 +1,16 @@
-## <cj>v1.3.3</c>
+## <cj>v1.4.0</c>
+
+- Added profile background behind icon
+- Added four new settings:
+  - Show profile background
+  - Scale profile icon
+  - Shift profile icon horizontally
+  - Shift profile icon vertically
+- Bumped to Geode v5.3.0
+
+---
+
+### v1.3.3
 - Added mod tag(s)
 - Bump to Geode v5.0.0 and GD 2.2081
 
