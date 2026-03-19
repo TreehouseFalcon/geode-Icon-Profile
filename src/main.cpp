@@ -53,7 +53,6 @@ class $modify(MenuLayer) {
 	bool init() {
 		if(!MenuLayer::init())
 			return false;
-
 		auto manager = GameManager::sharedState();
 
 		auto profileMenu = this->getChildByID("profile-menu");
